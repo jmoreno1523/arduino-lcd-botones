@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Control Arduino</title>
+<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<h1>Control de botones Arduino</h1>
+
+<div>
+  <button onclick="enviar('ARRIBA')">Arriba</button>
+  <button onclick="enviar('ABAJO')">Abajo</button>
+  <button onclick="enviar('IZQUIERDA')">Izquierda</button>
+  <button onclick="enviar('DERECHA')">Derecha</button>
+</div>
+
+<div>
+  <h2>Estado Arduino:</h2>
+  <pre id="estado">Esperando datos...</pre>
+</div>
+
+<script>
+  const socket = io();
+
+  function enviar(direccion) {
+    socket.emit("botonPresionado", direccion);
+  }
+
+  socket.on("arduinoData", (msg) => {
+    document.getElementById("estado").textContent = msg;
+  });
+</script>
+</body>
+</html>
+
+
+
